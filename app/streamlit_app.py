@@ -17,7 +17,7 @@ Features:
     ✔ Keyword Matching
     ✔ Dashboard Analytics
     ✔ Candidate Skill Analysis
-    ✔ AI Career Advisor (RAG + Ollama)
+    ✔ AI Career Advisor (RAG + Gemini)
     ✔ CSV Export
 
 Tech Stack:
@@ -28,7 +28,7 @@ Tech Stack:
     - Plotly
     - Pandas
     - FAISS / Vector Search
-    - Ollama
+    - Gemini
 
 Run:
     streamlit run app/streamlit_app.py
@@ -71,7 +71,6 @@ from src.rag_assistant import (
     build_context_block,
     generate_advice,
     check_groundedness,
-    OllamaConnectionError,
     AdviceGenerationError,
 )
 
@@ -431,14 +430,15 @@ Required Skills:
         )
 
 # ==========================================================
-# AI Career Advisor (RAG + Ollama)
+# AI Career Advisor (RAG +  Google Gemini API)
 # ==========================================================
 
 with tab_advisor:
 
     st.header("🎯 AI Career Advisor")
-    st.write("Generate AI-powered career advice for each candidate using Retrieval-Augmented Generation (RAG).")
-
+    st.write(
+    "Generate AI-powered career advice using Groq Llama 3.3 and Retrieval-Augmented Generation (RAG)."
+    )
     if "results_df" not in st.session_state:
         st.info("Please screen resumes first from the Resume Screener tab.")
     else:
@@ -473,11 +473,16 @@ with tab_advisor:
                         try:
                             advice = generate_advice(context)
                             groundedness = check_groundedness(context, advice)
-                            st.session_state[advice_key] = {"advice": advice, "groundedness": groundedness}
-                        except OllamaConnectionError as exc:
-                            st.error(f"Ollama Error: {exc}")
+                            st.session_state[advice_key] = {
+                                "advice": advice,
+                                "groundedness": groundedness,
+                                }
+
                         except AdviceGenerationError as exc:
-                            st.error(f"Advice Error: {exc}")
+                            st.error(f"AI Error: {exc}")
+
+                        except Exception as exc:
+                            st.error(f"Unexpected Error: {exc}")
 
                 if advice_key in st.session_state:
                     cached = st.session_state[advice_key]
