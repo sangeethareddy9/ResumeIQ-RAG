@@ -241,11 +241,11 @@ streamlit run app/streamlit_app.py
 
 Python Full Stack Developer
 
-📧 Email: *your-email@example.com*
+📧 Email: *chirlasangeetha@gmail.com*
 
 🔗 GitHub: https://github.com/sangeethareddy9
 
-💼 LinkedIn: *Add your LinkedIn profile link here*
+💼 LinkedIn: *https://www.linkedin.com/in/chirla-naga-sangeetha/*
 
 ---
 
